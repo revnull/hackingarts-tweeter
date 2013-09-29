@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 '''
 Class for searching a twitter hashtag and returning tweets in tokenized form
 '''
