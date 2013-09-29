@@ -31,13 +31,13 @@ class Reader():
                                                     )
                                  )
  
-    def tweets(self, hashtag):
+    def tweets(self, hashtag, count=8):
         '''
         Return a list of all of the tweets (strings) matching the hashtag.
         Specify the hashtag without the "#" character.
         '''
         hashtag = sub(r'^#', '', hashtag)
-        o = self.t.search.tweets(q='#'+hashtag, count=8)
+        o = self.t.search.tweets(q='#'+hashtag, count=count)
         stats = o.get('statuses')
         tweets = [s['text'] for s in stats]
         return tweets
@@ -50,13 +50,13 @@ class Reader():
         words = split(r'\s+', tweet)
         return words
 
-    def all_words(self, hashtag):
+    def all_words(self, hashtag, tweet_count=8):
         '''
         Returns a list of all of the words for the given hashtag.
         TODO:  have parameters for specifying a timestamp search range. 
         '''
         res = []
-        for tweet in self.tweets(hashtag):
+        for tweet in self.tweets(hashtag, count=tweet_count):
             res +=  self.words(tweet)
         return res
     
