@@ -69,12 +69,12 @@ class NotifierThread(threading.Thread):
                     volume = 100
 
                 self.midiout.send_message([0x99, note, 100])
-                time.sleep(0.1)
+                time.sleep(0.05)
 
-            time.sleep(0.5)
+            time.sleep(0.1)
             for (letter, note) in notes:
                 self.midiout.send_message([0x89, note, 0])
-                time.sleep(0.1)
+                time.sleep(0.05)
 
             word = word[10:]
 
