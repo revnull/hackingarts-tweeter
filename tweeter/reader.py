@@ -60,6 +60,28 @@ class Reader():
             res +=  self.words(tweet)
         return res
     
+    def tokenize(self, word):
+        '''
+        Possibly irrelevant, but experimental:  Done by notify.note_to_midi(),
+        but theoretically could be used to package words with other data that
+        could be turned into midi controller values.
+        
+        Produce a list of integers from the letter scaled from 1 to 12,
+        preserving punctuation (which could be controller values, etc, in the
+        future) 
+        '''
+        char_list = []
+        while len(word):
+            c = word[0].lower()
+            o = ord(c)
+            word = word[1:]
+            if 96 < o < 123:
+                n = (o - 96) % 12
+                char_list.append(n)
+            else:
+                char_list.append(c)
+        return char_list
+                 
 
 def main(argv):
     r = Reader(argv[0], argv[1], argv[2])
