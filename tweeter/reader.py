@@ -28,7 +28,7 @@ class Reader():
     def tweets(self, hashtag):
         '''Return a list of all of the tweets matching the hashtag'''
         hashtag = sub(r'^#', '', hashtag)
-        o = self.t.search.tweets(q='#'+hashtag)
+        o = self.t.search.tweets(q='#'+hashtag, count=8)
         stats = o.get('statuses')
         tweets = [s['text'] for s in stats]
         return tweets
@@ -36,7 +36,6 @@ class Reader():
 def main(argv):
     r = Reader(argv[0], argv[1], argv[2])
     print "\n".join(r.tweets('ackingarts'))
-    
     
 if __name__ == '__main__':
     main(sys.argv[1:])

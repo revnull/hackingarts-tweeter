@@ -6,5 +6,6 @@ setup(name="tweeter",
     description="A program to turn tweets into music",
     author="Rev. Johnny Healey",
     author_email="rev.null@gmail.com",
-    packages = ["tweeter"]
+    packages = ["tweeter"],
+    scripts = ["bin/tweeter"]
 )
