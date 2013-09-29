@@ -16,7 +16,7 @@ class Reader():
     tweets(hashtag)
     words(tweet)
     '''
- 
+    
     def __init__(self, app_name, consumer_key, consumer_secret):
         creds = os.path.expanduser('~/.tweeter_credentials')
         if not os.path.exists(creds):
@@ -63,7 +63,7 @@ class Reader():
 
 def main(argv):
     r = Reader(argv[0], argv[1], argv[2])
-    print "\n".join(r.all_words('ackingarts'))
+    print "\n".join(r.all_words('hackingarts'))
     
 if __name__ == '__main__':
     main(sys.argv[1:])
