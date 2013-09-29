@@ -34,7 +34,7 @@ notes = {
 }
 
 def note_to_midi(n):
-    return notes.get(n.lower(), ord(n))
+    return notes.get(n.lower(), ord(n) % 12)
 
 class NotifierThread(threading.Thread):
     def __init__(self, queue):
