@@ -1,5 +1,6 @@
 '''
-Class for searching a twitter hashtag and returning tweets in tokenized form
+Class for searching a twitter hashtag and returning tweets in tokenized form,
+or all of the words in a list of tweets
 '''
 
 import twitter
