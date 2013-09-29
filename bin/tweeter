@@ -12,8 +12,8 @@ def main(argv):
     while True:
         if queue.qsize() < 20:
             print "refreshing queue"
-            tweets = reader.tweets(argv[3])
-            [queue.put(t) for t in tweets]
+            words = reader.all_words(argv[3])
+            [queue.put(w) for w in words]
         time.sleep(5)
 
 if __name__ == '__main__':
