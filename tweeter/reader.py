@@ -38,7 +38,7 @@ class Reader():
         Specify the hashtag without the "#" character.
         '''
         hashtag = sub(r'^#', '', hashtag)
-        o = self.t.search.tweets(q='#'+hashtag)
+        o = self.t.search.tweets(q='#'+hashtag, count=8)
         stats = o.get('statuses')
         tweets = [s['text'] for s in stats]
         return tweets
@@ -65,7 +65,6 @@ class Reader():
 def main(argv):
     r = Reader(argv[0], argv[1], argv[2])
     print "\n".join(r.all_words('ackingarts'))
-    
     
 if __name__ == '__main__':
     main(sys.argv[1:])
