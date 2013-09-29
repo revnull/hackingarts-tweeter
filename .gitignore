@@ -1,2 +1,4 @@
 tweeter.egg-info
 *.pyc
+.project
+.pydevproject
