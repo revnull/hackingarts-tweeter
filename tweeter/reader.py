@@ -13,11 +13,8 @@ class Reader():
     '''
     Performs functions associated with reading the twitter feed and providing
     parsed and tokenized output.
-    
-    tweets(hashtag)
-    words(tweet)
     '''
-    
+
     def __init__(self, app_name, consumer_key, consumer_secret):
         creds = os.path.expanduser('~/.tweeter_credentials')
         if not os.path.exists(creds):
@@ -28,7 +25,8 @@ class Reader():
         self.t = twitter.Twitter(
                                  auth=twitter.OAuth(
                                                     oauth_token, oauth_secret,
-                                                    consumer_key, consumer_secret
+                                                    consumer_key,
+                                                    consumer_secret
                                                     )
                                  )
  
@@ -69,19 +67,28 @@ class Reader():
         
         Produce a list of integers from the letter scaled from 1 to 12,
         preserving punctuation (which could be controller values, etc, in the
-        future) 
+        future; for example, "#" increasing the velocity of the note that
+        follows). 
         '''
-        char_list = []
-        while len(word):
-            c = word[0].lower()
+        tlist = []
+        for c in word.lower():
             o = ord(c)
-            word = word[1:]
             if 96 < o < 123:
                 n = (o - 96) % 12
-                char_list.append(n)
+                tlist.append(n)
             else:
-                char_list.append(c)
-        return char_list
+                tlist.append(c)
+        return tlist
+    
+    def all_tokens(self, hashtag, tweet_count=8):
+        '''
+        Returns a list of token-lists for the given hashtag.
+        Each token-list is a list of numbers or punctuation characters.
+        The punctuation characters could represent velocity or controller
+        data. 
+        '''
+        words = self.all_words(hashtag, tweet_count)
+        return [self.tokenize(word) for word in words]
                  
 
 def main(argv):
