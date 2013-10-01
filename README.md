@@ -7,9 +7,13 @@ Turn tweets into midi events to create music
 Requirements
 ------------
 
+Python
+
 rtmidi C++ library and python wrapper:
 * https://github.com/superquadratic/rtmidi-python.git
 * http://www.music.mcgill.ca/~gary/rtmidi/release/rtmidi-2.0.1.tar.gz
+
+"twitter" Python package (pip install twitter)
 
 
 Installation
@@ -25,5 +29,5 @@ need it for the consumer key and the consumer secret.
 Usage
 -----
 
-  $ $PATH_TO_TWEETER/bin/tweeter \
-    <app name> <consumer key> <consumer secret> <hashtag without "#">
+	$ $PATH_TO_TWEETER/bin/tweeter \
+	  <app name> <consumer key> <consumer secret> <hashtag without "#">
