@@ -84,9 +84,8 @@ class NotifierThread(threading.Thread):
 
 def spawn_notifier():
     queue = Queue.Queue()
-
     thread = NotifierThread(queue)
+    thread.daemon = True
     thread.start()
-
     return queue
 
