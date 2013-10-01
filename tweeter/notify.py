@@ -1,5 +1,9 @@
 
-import rtmidi
+try:
+    import rtmidi
+except ImportError:
+    import rtmidi_python as rtmidi
+
 import time
 import threading
 import Queue
