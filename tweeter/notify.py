@@ -7,6 +7,7 @@ except ImportError:
 import time
 import threading
 import Queue
+from . import midiutil
 
 notes = {
     'a': 0,
@@ -37,6 +38,8 @@ notes = {
     'z': 1,
 }
 
+channel = 10
+
 def note_to_midi(n):
     return notes.get(n.lower(), ord(n) % 12)
 
@@ -45,7 +48,7 @@ class NotifierThread(threading.Thread):
         self.queue = queue
         self.midiout = rtmidi.MidiOut()
         self.midiout.open_port(0)
-        
+        self.midiout.send_message(midiutil.all_notes_off(channel))
         threading.Thread.__init__(self)
 
     def run(self):
@@ -68,16 +71,19 @@ class NotifierThread(threading.Thread):
             for (letter, note) in notes:
 
                 if letter.isupper():
-                    volume = 120
+                    velocity = 120
                 else:
-                    volume = 100
+                    velocity = 100
 
-                self.midiout.send_message([0x99, note, 100])
+                self.midiout.send_message(
+                                          midiutil.note_on(channel, note,
+                                                           velocity)
+                                          )
                 time.sleep(0.05)
 
             time.sleep(0.1)
             for (letter, note) in notes:
-                self.midiout.send_message([0x89, note, 0])
+                self.midiout.send_message(midiutil.note_off(channel, note))
                 time.sleep(0.05)
 
             word = word[10:]
