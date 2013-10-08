@@ -4,17 +4,41 @@ import sys
 import time
 from tweeter.reader import Reader
 from tweeter.notify import spawn_notifier
+import tweeter.config
 
 def main(argv):
     queue = spawn_notifier()
-    reader = Reader(argv[0], argv[1], argv[2])
+    if len(argv) == 4:
+        reader = Reader(argv[0], argv[1], argv[2])
+        hashtag = argv[3]
+    elif len(argv) == 1:
+        config = tweeter.config.get()
+        reader = Reader(config['app_name'], config['consumer_key'],
+                        config['consumer_secret'])
+        hashtag = argv[0]
+    else:
+        usage()
+        sys.exit(1)
 
     while True:
         if queue.qsize() < 20:
             print "refreshing queue"
-            words = reader.all_words(argv[3])
+            words = reader.all_words(hashtag)
             [queue.put(w) for w in words]
         time.sleep(5)
+
+def usage():
+    print """
+Usage:
+    tweeter <twitter app> <consumer key> <consumer secret> <hashtag>
+    OR, if using a config file:
+    tweeter <hashtag>
+        
+Configuration file ~/.tweeter_config:
+    app_name = "appname"
+    consumer_key = "consumer_key"
+    consumer_secret = "consumer_secret"
+    """
 
 if __name__ == '__main__':
     try:
