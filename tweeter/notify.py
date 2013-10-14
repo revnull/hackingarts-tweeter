@@ -38,17 +38,16 @@ notes = {
     'z': 1,
 }
 
-channel = 10
-
 def note_to_midi(n):
     return notes.get(n.lower(), ord(n) % 12)
 
 class NotifierThread(threading.Thread):
-    def __init__(self, queue):
+    def __init__(self, channel, queue):
         self.queue = queue
         self.midiout = rtmidi.MidiOut()
         self.midiout.open_port(0)
         self.midiout.send_message(midiutil.all_notes_off(channel))
+        self.channel = channel
         threading.Thread.__init__(self)
 
     def run(self):
@@ -75,22 +74,21 @@ class NotifierThread(threading.Thread):
                 else:
                     velocity = 100
 
-                self.midiout.send_message(
-                                          midiutil.note_on(channel, note,
-                                                           velocity)
-                                          )
+                self.midiout.send_message(midiutil.note_on(self.channel, note,
+                                                           velocity))
                 time.sleep(0.05)
 
             time.sleep(0.1)
             for (letter, note) in notes:
-                self.midiout.send_message(midiutil.note_off(channel, note))
+                self.midiout.send_message(midiutil.note_off(self.channel,
+                                                            note))
                 time.sleep(0.05)
 
             word = word[10:]
 
-def spawn_notifier():
+def spawn_notifier(channel = 10):
     queue = Queue.Queue()
-    thread = NotifierThread(queue)
+    thread = NotifierThread(channel, queue)
     thread.daemon = True
     thread.start()
     return queue
